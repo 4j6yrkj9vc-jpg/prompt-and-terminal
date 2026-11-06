@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prompt & Terminal | Open Source AI & Self-Hosted Workflows</title>
+  <style>
+    :root {
+      --bg: #0d1117;
+      --card-bg: #161b22;
+      --border: #30363d;
+      --accent: #238636;
+      --accent-hover: #2ea043;
+      --text-main: #c9d1d9;
+      --text-muted: #8b949e;
+      --prompt-green: #3fb950;
+      --cursor-amber: #d29922;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text-main);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      line-height: 1.5;
+      display: flex;
+      justify-content: center;
+      padding: 40px 16px;
+      min-height: 100vh;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 580px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* Terminal Header */
+    .header {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .window-bar {
+      background: #090d13;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+    .dot-red { background: #ff5f56; }
+    .dot-yellow { background: #ffbd2e; }
+    .dot-green { background: #27c93f; }
+
+    .header-content {
+      padding: 24px 20px;
+      text-align: center;
+    }
+
+    .avatar {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 68px;
+      height: 68px;
+      background: #090d13;
+      border: 2px solid var(--border);
+      border-radius: 50%;
+      font-family: monospace;
+      font-size: 28px;
+      font-weight: bold;
+      color: var(--prompt-green);
+      margin-bottom: 12px;
+    }
+    .avatar span { color: var(--cursor-amber); }
+
+    h1 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+
+    .bio {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+      font-family: monospace;
+    }
+
+    /* Section Styling */
+    .section-title {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-muted);
+      font-weight: 700;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-title::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* Links / Cards */
+    .link-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 18px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      text-decoration: none;
+      color: var(--text-main);
+      transition: all 0.15s ease-in-out;
+    }
+
+    .card:hover {
+      border-color: var(--prompt-green);
+      transform: translateY(-2px);
+      background: #1c2128;
+    }
+
+    .card-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .card-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card-desc {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .badge {
+      font-size: 0.7rem;
+      padding: 2px 7px;
+      border-radius: 12px;
+      font-family: monospace;
+      font-weight: 600;
+    }
+    .badge-free { background: rgba(59, 185, 80, 0.15); color: var(--prompt-green); }
+    .badge-affiliate { background: rgba(210, 153, 34, 0.15); color: var(--cursor-amber); }
+
+    .arrow {
+      color: var(--text-muted);
+      font-size: 1.1rem;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-family: monospace;
+      padding-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <div class="window-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+      </div>
+      <div class="header-content">
+        <div class="avatar">&gt;<span>_</span></div>
+        <h1>Prompt & Terminal</h1>
+        <p class="bio">$ replacing $300/mo SaaS with local & self-hosted open source</p>
+      </div>
+    </div>
+
+    <!-- Section 1: Featured Open-Source Repos -->
+    <div>
+      <div class="section-title">Open-Source Repos Featured in Shorts</div>
+      <div class="link-list">
+        
+        <a href="https://github.com/ollama/ollama" target="_blank" rel="noopener" class="card">
+          <div class="card-info">
+            <span class="card-title">Ollama <span class="badge badge-free">GitHub</span></span>
+            <span class="card-desc">Run open-source LLMs locally on macOS, Linux, and Windows</span>
+          </div>
+          <span class="arrow">→</span>
+        </a>
+
+        <a href="https://github.com/continuedev/continue" target="_blank" rel="noopener" class="card">
+          <div class="card-info">
+            <span class="card-title">Continue.dev <span class="badge badge-free">Free Extension</span></span>
+            <span class="card-desc">The open-source AI code assistant replacing Cursor & Copilot</span>
+          </div>
+          <span class="arrow">→</span>
+        </a>
+
+        <a href="https://github.com/open-webui/open-webui" target="_blank" rel="noopener" class="card">
+          <div class="card-info">
+            <span class="card-title">Open WebUI <span class="badge badge-free">Docker</span></span>
+            <span class="card-desc">Self-hosted, ChatGPT-style frontend for Ollama & custom models</span>
+          </div>
+          <span class="arrow">→</span>
+        </a>
+
+      </div>
+    </div>
+
+    <!-- Section 2: Recommended 24/7 Hosting (Affiliate / Monetization) -->
+    <div>
+      <div class="section-title">24/7 Hosting & Dedicated VPS</div>
+      <div class="link-list">
+        
+        <!-- Replace YOUR_AFFILIATE_LINK with your referral URL (e.g., Hetzner, DigitalOcean) -->
+        <a href="https://digitalocean.com" target="_blank" rel="noopener" class="card">
+          <div class="card-info">
+            <span class="card-title">DigitalOcean Droplets <span class="badge badge-affiliate">$200 Credit</span></span>
+            <span class="card-desc">Deploy your Docker containers & dev bots with reliable uptime</span>
+          </div>
+          <span class="arrow">→</span>
+        </a>
+
+        <a href="https://www.hetzner.com" target="_blank" rel="noopener" class="card">
+          <div class="card-info">
+            <span class="card-title">Hetzner Cloud VPS <span class="badge badge-affiliate">Budget Pick</span></span>
+            <span class="card-desc">Low-cost European & US servers for high-memory self-hosting</span>
+          </div>
+          <span class="arrow">→</span>
+        </a>
+
+      </div>
+    </div>
+
+    <!-- Section 3: Recommended Hardware for Local LLMs -->
+    <div>
+      <div class="section-title">Local Homelab Hardware</div>
+      <div class="link-list">
+        
+        <!-- Replace with Amazon affiliate tag or product links -->
+        <a href="https://amazon.com" target="_blank" rel="noopener" class="card">
+          <div class="card-info">
+            <span class="card-title">Intel N100 / Ryzen Mini PC <span class="badge badge-affiliate">Low Power</span></span>
+            <span class="card-desc">The gold standard sub-$200 hardware for 24/7 local servers</span>
+          </div>
+          <span class="arrow">→</span>
+        </a>
+
+      </div>
+    </div>
+
+    <footer>
+      Prompt & Terminal © 2026 • Local AI & Self-Hosted Architectures
+    </footer>
+  </div>
+
+</body>
+</html>
